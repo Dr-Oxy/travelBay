@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+}
+
+
+.otp_alt_style {
+    width: 3rem !important;
+    height: 3rem;
+    margin: 8px 0.5rem;
+    background-color: white;
+    color: #212121;
+    border: 1px solid rgba(18, 18, 18, 0.12);
+    border-radius: 4px;
+    outline: none;
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 575px) {
+    .otp_alt_style {
+        width: 2.5rem !important;
+        font-size: 14px;
+    }
+}
+
+.otp_style_focus {
+    border: 1px solid #1C9FDA !important;
+}
+
+
+.password-wrapper input {
+    background: transparent;
+    border: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
