@@ -1,5 +1,16 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from '@apollo/client';
+
+import { setContext } from '@apollo/client/link/context';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -11,10 +22,30 @@ import Otp from './pages/ResetPassword/Otp';
 import CreatePassword from './pages/ResetPassword/CreatePassword';
 
 function App() {
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
+  const httpLink = createHttpLink({
     uri: 'https://travelbay-9vyj.onrender.com/graphql',
   });
+
+  const authLink = setContext((_, { headers }) => {
+    const token = sessionStorage.getItem('token');
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  });
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
+
+  // const client = new ApolloClient({
+  //   cache: new InMemoryCache(),
+  //   link: concat(authMiddleware, httpLink),
+  // });
 
   return (
     <ApolloProvider client={client}>
@@ -33,6 +64,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </ApolloProvider>
   );
 }
