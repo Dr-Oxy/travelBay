@@ -5,7 +5,7 @@ const EmptyPackage = () => {
   const arr = [1, 2, 3];
 
   return (
-    <div className="bg-[#F5F5F5] pb-4">
+    <div className=" pb-4">
       <div className="bg-gray-4 h-28 p-4">
         <div className="h-10 w-10 ml-auto rounded-full cursor-pointer bg-white flex items-center justify-center">
           <img src={emptyHeartIcon} alt="heart icon" />
