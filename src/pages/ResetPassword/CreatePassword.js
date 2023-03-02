@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '../../components/element';
 import { Onboarding } from '../../components/section';
 
 const CreatePassword = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -13,6 +15,10 @@ const CreatePassword = () => {
   } = useForm();
 
   const [show, setShow] = useState(false);
+
+  const createPassword = handleSubmit(async (data) => {
+    navigate('/login');
+  });
 
   return (
     <div className="lg:h-screen bg-white text-dark-blue-1 text-base grid grid-cols-1 lg:grid-cols-2">
@@ -101,7 +107,7 @@ const CreatePassword = () => {
           </div>
 
           <div className="mt-8">
-            <Button text="Confirm new password" />
+            <Button onClick={createPassword} text="Confirm new password" />
           </div>
         </form>
       </section>

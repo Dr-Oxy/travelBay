@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation, gql } from '@apollo/client';
 
 import { Checkbox, Button, PasswordInput } from '../components/element';
 import { Onboarding } from '../components/section';
 import { googleIcon } from '../assets/icons';
+
+import { toast } from 'react-toastify';
 
 const REGISTER_USERS_MUTATION = gql`
   mutation RegisterUser(
@@ -47,11 +50,28 @@ const Register = () => {
   const [subscribe, setSubscribe] = useState(false);
   const [accept, setAccept] = useState(true);
 
-  const [registerUser, { data, error, loading }] = useMutation(
-    REGISTER_USERS_MUTATION,
-  );
+  const [registerUser, { loading }] = useMutation(REGISTER_USERS_MUTATION, {
+    update(proxy, { data }) {
+      if (data?.register?.message) {
+        toast.error(data?.register?.message);
+      } else {
+        sessionStorage.setItem('token', data?.register?.token);
+        reset();
+        navigate('/');
+      }
+    },
+
+    onError({ graphQLErrors }) {
+      console(graphQLErrors);
+    },
+  });
 
   const signUp = handleSubmit(async (data) => {
+    if (!accept) {
+      toast.error('You have to accept terms and conditions');
+      return;
+    }
+
     registerUser({
       variables: {
         firstName: data.firstName,
@@ -61,18 +81,7 @@ const Register = () => {
         phoneNumber: data.phoneNumber,
       },
     });
-
-    if (data?.register?.__typeName === 'UserRegisterResultSuccess') {
-      reset();
-      navigate('/login');
-    }
-
-    if (error) {
-      console.log(error);
-    }
   });
-
-  console.log({ data, error });
 
   return (
     <div className="lg:h-screen bg-white text-dark-blue-1 text-base grid grid-cols-1 lg:grid-cols-2">
@@ -96,7 +105,7 @@ const Register = () => {
         </div>
 
         <form>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             <div className="col-span-1">
               <label className="block mb-3 text-sm font-medium text-dark-2 capitalize">
                 first name
@@ -143,7 +152,7 @@ const Register = () => {
                 )}
               </div>
             </div>
-            <div className="col-span-1 lg:col-span-2">
+            <div className="col-span-1 xl:col-span-2">
               <label className="block mb-3 text-sm font-medium text-dark-2 capitalize">
                 Email address
               </label>
@@ -166,7 +175,7 @@ const Register = () => {
                 )}
               </div>
             </div>
-            <div className="col-span-1 lg:col-span-2">
+            <div className="col-span-1 xl:col-span-2">
               <label className="block mb-3 text-sm font-medium text-dark-2 capitalize">
                 Phone number
               </label>
@@ -185,12 +194,13 @@ const Register = () => {
                 />
                 {errors.phoneNumber && (
                   <div className="text-red-400 text-sm">
-                    Email cannot be empty
+                    Phone number must be valid
                   </div>
                 )}
               </div>
             </div>
-            <div className="col-span-1 lg:col-span-2 relative ">
+
+            <div className="col-span-1 xl:col-span-2 relative ">
               <label className="block mb-3 text-sm font-medium text-dark-2 capitalize">
                 password
               </label>
@@ -216,7 +226,7 @@ const Register = () => {
 
                 {errors.password && (
                   <div className="text-red-400 text-sm">
-                    Password field cannot be empty
+                    Password must have a min of 8 characters
                   </div>
                 )}
               </div>
