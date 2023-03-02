@@ -11,6 +11,9 @@ import AppRouter from './router/AppRouter';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 function App() {
   const httpLink = createHttpLink({
     uri: process.env.REACT_APP_GRAPHQL_URI,
