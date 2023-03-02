@@ -37,15 +37,19 @@ const Login = () => {
   const [loginUser, { loading }] = useMutation(LOGIN_USERS_MUTATION, {
     update(proxy, { data }) {
       if (data?.login?.message) {
-        toast.error(data?.login?.message);
+        toast.error(data?.login?.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       } else {
         sessionStorage.setItem('token', data?.login?.token);
         reset();
         navigate('/');
       }
     },
-    onError({ graphQLErrors }) {
-      console(graphQLErrors);
+    onError(error) {
+      toast.error(error?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     },
   });
 

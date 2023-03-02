@@ -65,16 +65,19 @@ const Register = () => {
   const [registerUser, { loading }] = useMutation(REGISTER_USERS_MUTATION, {
     update(proxy, { data }) {
       if (data?.register?.message) {
-        toast.error(data?.register?.message);
+        toast.error(data?.register?.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       } else {
         sessionStorage.setItem('token', data?.register?.token);
         reset();
         navigate('/');
       }
     },
-
-    onError({ graphQLErrors }) {
-      console(graphQLErrors);
+    onError(error) {
+      toast.error(error?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     },
   });
 
