@@ -4,11 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation, gql } from '@apollo/client';
 
-import { Checkbox, Button, PasswordInput } from '../components/element';
+import {
+  Checkbox,
+  Button,
+  PasswordInput,
+  SelectDropdown,
+} from '../components/element';
 import { Onboarding } from '../components/section';
 import { googleIcon } from '../assets/icons';
 
 import { toast } from 'react-toastify';
+
+import countriesDailingCode from '../utils/countriesDialCode';
 
 const REGISTER_USERS_MUTATION = gql`
   mutation RegisterUser(
@@ -49,6 +56,11 @@ const Register = () => {
   const [subscribe, setSubscribe] = useState(false);
   const [accept, setAccept] = useState(true);
 
+  const dialCodes = countriesDailingCode?.map((code) => ({
+    value: code?.dialCode,
+    label: code?.dialCode,
+  }));
+
   const [registerUser, { loading }] = useMutation(REGISTER_USERS_MUTATION, {
     update(proxy, { data }) {
       if (data?.register?.message) {
@@ -77,7 +89,7 @@ const Register = () => {
         lastName: data.lastName,
         email: data.email,
         password: data.password,
-        phoneNumber: data.phoneNumber,
+        phoneNumber: data.dialCode?.value + data.phoneNumber,
       },
     });
   });
@@ -151,6 +163,7 @@ const Register = () => {
                 )}
               </div>
             </div>
+
             <div className="col-span-1 xl:col-span-2">
               <label className="block mb-3 text-sm font-medium text-dark-2 capitalize">
                 Email address
@@ -174,29 +187,44 @@ const Register = () => {
                 )}
               </div>
             </div>
+
             <div className="col-span-1 xl:col-span-2">
               <label className="block mb-3 text-sm font-medium text-dark-2 capitalize">
                 Phone number
               </label>
-              <div>
+
+              <div className="input-wrapper flex items-center border border-stroke-black rounded-lg focus-within:border-2 focus-within:border-primary-blue">
+                <Controller
+                  control={control}
+                  name="dialCode"
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <SelectDropdown
+                      defaultValue={dialCodes[0]}
+                      options={dialCodes}
+                      {...field}
+                    />
+                  )}
+                />
+
                 <input
                   name="phoneNumber"
-                  className="w-full text-gray-1 border border-stroke-black
-                   focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
+                  className="text-gray-1 border  text-base  py-3 px-2 ml-1"
                   {...register('phoneNumber', {
                     required: true,
                     pattern: /^[0-9]*$/,
                   })}
-                  type="text"
-                  placeholder="Enter your phone number"
+                  type="tel"
                 />
-                {errors.phoneNumber && (
-                  <div className="text-red-400 text-sm">
-                    Phone number must be valid
-                  </div>
-                )}
               </div>
+
+              {errors.phoneNumber && (
+                <div className="text-red-400 text-sm">
+                  Please enter a valid phone number
+                </div>
+              )}
             </div>
 
             <div className="col-span-1 xl:col-span-2 relative ">
