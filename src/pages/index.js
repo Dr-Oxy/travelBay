@@ -33,8 +33,6 @@ const Home = () => {
 
   const { data, loading, error } = useQuery(FETCH_USER_QUERY);
 
-  console.log({ data, loading, error });
-
   return token === null || token === undefined ? (
     <Navigate to="/login" replace />
   ) : (
@@ -45,7 +43,9 @@ const Home = () => {
 
       <div className="mt-8 p-6 lg:p-10 bg-white max-w-2xl  shadow-md rounded  text-dark-blue-1">
         <h1 className=" text-2xl lg:text-[32px] text-dark-blue-2 font-bold">
-          Welcome {data?.me?.firstName} 🎉
+          {loading
+            ? 'Loading Your Information'
+            : ` Welcome ${data?.me?.firstName} 🎉`}
         </h1>
 
         <p className="text-base mt-2">
@@ -57,7 +57,7 @@ const Home = () => {
         ) : data && data?.length !== 0 ? (
           <IdCard data={data?.me} />
         ) : (
-          <div className="bg-white border border-red-400 p-5 mt-5 text-red-500">
+          <div className="bg-white border border-red-400 text-center p-5 mt-5 text-red-500">
             {error?.message}
           </div>
         )}
