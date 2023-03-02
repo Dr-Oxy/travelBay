@@ -23,7 +23,7 @@ import CreatePassword from './pages/ResetPassword/CreatePassword';
 
 function App() {
   const httpLink = createHttpLink({
-    uri: 'https://travelbay-9vyj.onrender.com/graphql',
+    uri: process.env.REACT_APP_GRAPHQL_URI,
   });
 
   const authLink = setContext((_, { headers }) => {
