@@ -1,19 +1,61 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { useMutation, gql } from '@apollo/client';
 
 import { Button, PasswordInput } from '../components/element';
 import { Onboarding } from '../components/section';
 
+import { toast } from 'react-toastify';
+
+const LOGIN_USERS_MUTATION = gql`
+  mutation LoginUser($loginEmail2: Email!, $loginPassword2: String!) {
+    login(email: $loginEmail2, password: $loginPassword2) {
+      ... on UserLoginResultSuccess {
+        token
+      }
+      ... on BadRequest {
+        message
+      }
+    }
+  }
+`;
+
 const Login = () => {
+  const navigate = useNavigate();
+
   const {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const [show, setShow] = useState(false);
+  const [loginUser, { loading }] = useMutation(LOGIN_USERS_MUTATION, {
+    update(proxy, { data }) {
+      if (data?.login?.message) {
+        toast.error(data?.login?.message);
+      } else {
+        sessionStorage.setItem('token', data?.login?.token);
+        reset();
+        navigate('/');
+      }
+    },
+    onError({ graphQLErrors }) {
+      toast.error(graphQLErrors);
+    },
+  });
+
+  const onLogin = handleSubmit(async (data) => {
+    loginUser({
+      variables: {
+        loginEmail2: data.email,
+        loginPassword2: data.password,
+      },
+    });
+  });
 
   return (
     <div className="lg:h-screen bg-white text-dark-blue-1 text-base grid grid-cols-1 lg:grid-cols-2">
@@ -86,7 +128,7 @@ const Login = () => {
 
                 {errors.password && (
                   <div className="text-red-400 text-sm">
-                    Password field cannot be empty
+                    Password must have a min of 8 characters
                   </div>
                 )}
               </div>
@@ -94,7 +136,7 @@ const Login = () => {
           </div>
 
           <div className="mt-8">
-            <Button text="Log in" />
+            <Button onClick={onLogin} text={loading ? 'Loading..' : 'Log in'} />
           </div>
         </form>
 
