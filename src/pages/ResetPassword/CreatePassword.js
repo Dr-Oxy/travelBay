@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
-import { Button } from '../../components/element';
+import { Button, PasswordInput } from '../../components/element';
 import { Onboarding } from '../../components/section';
 
 const CreatePassword = () => {
   const navigate = useNavigate();
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const [show, setShow] = useState(false);
 
   const createPassword = handleSubmit(async (data) => {
     navigate('/login');
@@ -49,28 +47,25 @@ const CreatePassword = () => {
                 New password
               </label>
               <div>
-                <input
+                <Controller
+                  control={control}
                   name="newpassword"
-                  className="w-full text-gray-1 border border-stroke-black
-                   focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
-                  {...register('newpassword', {
+                  rules={{
                     required: true,
-                  })}
-                  type={show ? 'text' : 'password'}
-                  placeholder="Password (min of 8 characters and a number)"
+                    minLength: 8,
+                  }}
+                  render={({ field }) => (
+                    <PasswordInput
+                      placeholder="Password (min of 8 characters)"
+                      {...field}
+                    />
+                  )}
                 />
                 {errors.newpassword && (
                   <div className="text-red-400 text-sm">
                     Password field cannot be empty
                   </div>
                 )}
-                <span
-                  onClick={() => setShow(!show)}
-                  className="absolute top-12 right-4  cursor-pointer block uppercase text-base text-primary-blue"
-                >
-                  {show ? 'hide' : 'show'}
-                </span>
               </div>
             </div>
 
@@ -80,28 +75,26 @@ const CreatePassword = () => {
               </label>
 
               <div>
-                <input
+                <Controller
+                  control={control}
                   name="confirmpassword"
-                  className="w-full text-gray-1 border border-stroke-black
-                   focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
-                  {...register('confirmpassword', {
+                  rules={{
                     required: true,
-                  })}
-                  type={show ? 'text' : 'password'}
-                  placeholder="Password (min of 8 characters and a number)"
+                    minLength: 8,
+                  }}
+                  render={({ field }) => (
+                    <PasswordInput
+                      placeholder="Password (min of 8 characters)"
+                      {...field}
+                    />
+                  )}
                 />
+
                 {errors.confirmpassword && (
                   <div className="text-red-400 text-sm">
                     Password field cannot be empty
                   </div>
                 )}
-                <span
-                  onClick={() => setShow(!show)}
-                  className="absolute top-12 right-4  cursor-pointer block uppercase text-base text-primary-blue"
-                >
-                  {show ? 'hide' : 'show'}
-                </span>
               </div>
             </div>
           </div>

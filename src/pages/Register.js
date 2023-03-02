@@ -46,7 +46,6 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const [show, setShow] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
   const [accept, setAccept] = useState(true);
 
@@ -215,9 +214,6 @@ const Register = () => {
                   }}
                   render={({ field }) => (
                     <PasswordInput
-                      type={show ? 'text' : 'password'}
-                      show={show}
-                      setShow={setShow}
                       placeholder="Password (min of 8 characters)"
                       {...field}
                     />
