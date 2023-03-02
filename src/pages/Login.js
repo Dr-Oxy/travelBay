@@ -8,6 +8,8 @@ import { Onboarding } from '../components/section';
 
 import { toast } from 'react-toastify';
 
+import routes from '../router/routes';
+
 const LOGIN_USERS_MUTATION = gql`
   mutation LoginUser($loginEmail2: Email!, $loginPassword2: String!) {
     login(email: $loginEmail2, password: $loginPassword2) {
@@ -142,7 +144,7 @@ const Login = () => {
 
         <div className="text-base text-gray-1 mt-4 mb-8 text-center">
           <span>Forgot your password? </span>
-          <Link to="/reset-password/password">
+          <Link to={routes.RESET_PASSWORD}>
             <span className="text-dark-blue-1 underline">Reset here</span>
           </Link>
         </div>

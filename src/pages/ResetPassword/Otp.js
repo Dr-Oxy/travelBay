@@ -6,6 +6,8 @@ import { Onboarding } from '../../components/section';
 import OtpInput from 'react-otp-input';
 import { undoBlueIcon } from '../../assets/icons';
 
+import routes from '../../router/routes';
+
 const Otp = () => {
   const navigate = useNavigate();
 
@@ -22,7 +24,7 @@ const Otp = () => {
 
   useEffect(() => {
     if (OTP.length === 6) {
-      navigate('/reset-password/create-password');
+      navigate(routes.CREATE_PASSWORD);
     }
   }, [OTP.length, navigate]);
 
@@ -66,7 +68,7 @@ const Otp = () => {
             </div>
           </div>
 
-          <Link to="/login">
+          <Link to={routes.LOGIN}>
             <div className="flex items-center justify-center">
               <img src={undoBlueIcon} alt="go back to login icon" />
 
