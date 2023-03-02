@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Onboarding } from '../../components/section';
+import { RouteLink } from '../../components/element';
 
 import OtpInput from 'react-otp-input';
 import { undoBlueIcon } from '../../assets/icons';
@@ -33,11 +34,7 @@ const Otp = () => {
       <Onboarding />
 
       <section className="bg-white py-10 px-6 lg:px-10">
-        <Link to="/register">
-          <span className="block text-base font-bold text-right cursor-pointer">
-            Create an account
-          </span>
-        </Link>
+        <RouteLink link="/register" title="Create an account" />
 
         <div className="mt-14 mb-4">
           <h1 className="text-[32px] text-dark-blue-2 font-bold">

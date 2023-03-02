@@ -22,12 +22,12 @@ const Onboarding = () => {
   };
 
   return (
-    <section className="bg-off-white px-6 py-10 lg:p-10 overflow-y-scroll ">
+    <section className="bg-off-white px-6 py-10 lg:py-6 xl:px-10">
       <article>
-        <img className="h-8 w-28" src={logo} alt="travelbay's log" />
+        <img className="h-12 w-32" src={logo} alt="travelbay's log" />
       </article>
 
-      <div className="mt-8">
+      <div className="mt-6">
         <Slider {...settings}>
           <TravelPackage />
           <CustomizePayment />

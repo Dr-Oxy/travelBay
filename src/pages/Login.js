@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation, gql } from '@apollo/client';
 
-import { Button, PasswordInput } from '../components/element';
+import { Button, PasswordInput, RouteLink } from '../components/element';
 import { Onboarding } from '../components/section';
 
 import { toast } from 'react-toastify';
@@ -37,15 +37,19 @@ const Login = () => {
   const [loginUser, { loading }] = useMutation(LOGIN_USERS_MUTATION, {
     update(proxy, { data }) {
       if (data?.login?.message) {
-        toast.error(data?.login?.message);
+        toast.error(data?.login?.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
       } else {
         sessionStorage.setItem('token', data?.login?.token);
         reset();
         navigate('/');
       }
     },
-    onError({ graphQLErrors }) {
-      console(graphQLErrors);
+    onError(error) {
+      toast.error(error?.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     },
   });
 
@@ -63,11 +67,7 @@ const Login = () => {
       <Onboarding />
 
       <section className="bg-white py-10 px-6 lg:px-10">
-        <Link to="/register">
-          <span className="block text-base font-bold text-right cursor-pointer">
-            Create an account
-          </span>
-        </Link>
+        <RouteLink link="/register" title="Create an account" />
 
         <div className="mt-14 mb-4">
           <h1 className="text-[32px] text-dark-blue-2 font-bold">
@@ -88,7 +88,7 @@ const Login = () => {
                   name="email"
                   className="w-full text-gray-1 border border-stroke-black
                    focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
+                  rounded-lg text-base  p-3"
                   {...register('email', {
                     required: true,
                     pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -141,7 +141,7 @@ const Login = () => {
         <div className="text-base text-gray-1 mt-4 mb-8 text-center">
           <span>Forgot your password? </span>
           <Link to={routes.RESET_PASSWORD}>
-            <span className="text-dark-blue-1 underline">Reset here</span>
+            <span className="text-dark-blue-1 underline">Reset it here</span>
           </Link>
         </div>
 
