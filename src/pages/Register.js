@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation, gql } from '@apollo/client';
@@ -9,6 +9,7 @@ import {
   Button,
   PasswordInput,
   SelectDropdown,
+  RouteLink,
 } from '../components/element';
 import { Onboarding } from '../components/section';
 import { googleIcon } from '../assets/icons';
@@ -99,11 +100,7 @@ const Register = () => {
       <Onboarding />
 
       <section className="bg-white py-10 px-6 lg:px-10 overflow-y-scroll">
-        <Link to="/login">
-          <span className="block text-base font-bold text-right cursor-pointer">
-            Sign in
-          </span>
-        </Link>
+        <RouteLink link="/login" title="Sign In" />
 
         <div className="my-8">
           <h1 className="text-[32px] text-dark-blue-2 font-bold">
@@ -126,7 +123,7 @@ const Register = () => {
                   name="firstName"
                   className="w-full text-gray-1 border border-stroke-black
                    focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
+                  rounded-lg text-base  p-3"
                   {...register('firstName', {
                     required: true,
                   })}
@@ -149,7 +146,7 @@ const Register = () => {
                   name="lastName"
                   className="w-full text-gray-1 border border-stroke-black
                    focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
+                  rounded-lg text-base  p-3"
                   {...register('lastName', {
                     required: true,
                   })}
@@ -173,7 +170,7 @@ const Register = () => {
                   name="email"
                   className="w-full text-gray-1 border border-stroke-black
                    focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
+                  rounded-lg text-base  p-3"
                   {...register('email', {
                     required: true,
                   })}
@@ -211,7 +208,7 @@ const Register = () => {
 
                 <input
                   name="phoneNumber"
-                  className="text-gray-1 border  text-base  py-3 px-2 ml-1"
+                  className="text-gray-1 border  text-base  py-3 pr-3 ml-1"
                   {...register('phoneNumber', {
                     required: true,
                     pattern: /^[0-9]*$/,

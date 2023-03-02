@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '../../components/element';
+import { Button, RouteLink } from '../../components/element';
 import { Onboarding } from '../../components/section';
 
 import routes from '../../router/routes';
@@ -18,11 +18,7 @@ const Password = () => {
       <Onboarding />
 
       <section className="bg-white py-10 px-6 lg:px-10">
-        <Link to="/register">
-          <span className="block text-base font-bold text-right cursor-pointer">
-            Create an account
-          </span>
-        </Link>
+        <RouteLink link="/register" title="Create an account" />
 
         <div className="mt-14 mb-4">
           <h1 className="text-[32px] text-dark-blue-2 font-bold">
@@ -45,7 +41,7 @@ const Password = () => {
                 name="email"
                 className="w-full text-gray-1 border border-stroke-black
                    focus:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
+                  rounded-lg text-base  p-3"
                 {...register('email', {
                   required: true,
                 })}

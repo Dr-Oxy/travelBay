@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
-import { Button, PasswordInput } from '../../components/element';
+import { Button, PasswordInput, RouteLink } from '../../components/element';
 import { Onboarding } from '../../components/section';
 
 const CreatePassword = () => {
@@ -23,11 +23,7 @@ const CreatePassword = () => {
       <Onboarding />
 
       <section className="bg-white py-10 px-6 lg:px-10">
-        <Link to="/register">
-          <span className="block text-base font-bold text-right cursor-pointer">
-            Create an account
-          </span>
-        </Link>
+        <RouteLink link="/register" title="Create an account" />
 
         <div className="mt-14 mb-4">
           <h1 className="text-[32px] leading-10  text-dark-blue-2 font-bold">
