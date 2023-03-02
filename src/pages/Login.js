@@ -44,7 +44,7 @@ const Login = () => {
       }
     },
     onError({ graphQLErrors }) {
-      toast.error(graphQLErrors);
+      console(graphQLErrors);
     },
   });
 
