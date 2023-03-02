@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -8,11 +8,8 @@ import { Onboarding } from '../../components/section';
 const Password = () => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const [show, setShow] = useState(false);
 
   return (
     <div className="lg:h-screen bg-white text-dark-blue-1 text-base grid grid-cols-1 lg:grid-cols-2">
