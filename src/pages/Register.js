@@ -1,22 +1,78 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { useMutation, gql } from '@apollo/client';
 
 import { Checkbox, Button, PasswordInput } from '../components/element';
 import { Onboarding } from '../components/section';
 import { googleIcon } from '../assets/icons';
 
+const REGISTER_USERS_MUTATION = gql`
+  mutation RegisterUser(
+    $firstName: String!
+    $lastName: String!
+    $email: Email!
+    $password: String!
+    $phoneNumber: String!
+  ) {
+    register(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+      phoneNumber: $phoneNumber
+    ) {
+      ... on UserRegisterResultSuccess {
+        token
+      }
+      ... on BadRequest {
+        message
+      }
+    }
+  }
+`;
+
 const Register = () => {
+  const navigate = useNavigate();
+
   const {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const [show, setShow] = useState(false);
   const [subscribe, setSubscribe] = useState(false);
   const [accept, setAccept] = useState(true);
+
+  const [registerUser, { data, error, loading }] = useMutation(
+    REGISTER_USERS_MUTATION,
+  );
+
+  const signUp = handleSubmit(async (data) => {
+    registerUser({
+      variables: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        phoneNumber: data.phoneNumber,
+      },
+    });
+
+    if (data?.register?.__typeName === 'UserRegisterResultSuccess') {
+      reset();
+      navigate('/login');
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  });
+
+  console.log({ data, error });
 
   return (
     <div className="lg:h-screen bg-white text-dark-blue-1 text-base grid grid-cols-1 lg:grid-cols-2">
@@ -140,32 +196,6 @@ const Register = () => {
               </label>
 
               <div>
-                {/* <div
-                  className="flex items-center justify-between  w-full text-gray-1 border border-stroke-black
-                    focus-within:outline
-                   focus-within:outline-primary-blue
-                  rounded-lg text-base  py-3 px-2"
-                >
-                  <input
-                    name="password"
-                    className="flex-1 bg-transparent border-0 outline-0 focus:outline-0 focus:border-0"
-                    {...register('password', {
-                      required: true,
-                      minLength: 8,
-                    })}
-                    type={show ? 'text' : 'password'}
-                    placeholder="Password(min of 8 characters
-                       and a number)"
-                  />
-
-                  <div
-                    className="ml-2 cursor-pointer capitalize text-base text-primary-blue"
-                    onClick={() => setShow(!show)}
-                  >
-                    {show ? 'hide' : 'show'}
-                  </div>
-                </div> */}
-
                 <Controller
                   control={control}
                   name="password"
@@ -231,7 +261,10 @@ const Register = () => {
           </div>
 
           <div className="text-center">
-            <Button text="Create an account" />
+            <Button
+              onClick={signUp}
+              text={loading ? 'Creating..' : 'Create an account'}
+            />
 
             <span className="text-base text-gray-1 font-medium my-3 block">
               OR
