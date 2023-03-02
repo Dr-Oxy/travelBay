@@ -1,6 +1,5 @@
 const Checkbox = ({ id, value, checked, onChange, name }) => {
   return (
-    // <div></div>
     <input
       id={id}
       value={value}
@@ -8,7 +7,7 @@ const Checkbox = ({ id, value, checked, onChange, name }) => {
       checked={checked}
       onChange={onChange}
       type="checkbox"
-      className="block w-6 h-6 bg-white  accent-blue-500  !rounded"
+      className="block w-5 h-5 !p-2 bg-white  !rounded-lg cursor-pointer text-xs"
     />
   );
 };

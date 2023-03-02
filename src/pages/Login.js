@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation, gql } from '@apollo/client';
@@ -34,7 +34,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const [show, setShow] = useState(false);
   const [loginUser, { loading }] = useMutation(LOGIN_USERS_MUTATION, {
     update(proxy, { data }) {
       if (data?.login?.message) {
@@ -119,9 +118,6 @@ const Login = () => {
                   }}
                   render={({ field }) => (
                     <PasswordInput
-                      type={show ? 'text' : 'password'}
-                      show={show}
-                      setShow={setShow}
                       placeholder="Password (min of 8 characters)"
                       {...field}
                     />
