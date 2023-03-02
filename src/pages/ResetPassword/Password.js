@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { Button } from '../../components/element';
 import { Onboarding } from '../../components/section';
 
+import routes from '../../router/routes';
+
 const Password = () => {
   const {
     register,
@@ -58,14 +60,14 @@ const Password = () => {
             </div>
           </div>
 
-          <Link to="/reset-password/otp">
+          <Link to={routes.RESET_PASSWORD_OTP}>
             <div className="mt-8">
               <Button text="Continue" />
             </div>
           </Link>
         </form>
 
-        <Link to="/login">
+        <Link to={routes.LOGIN}>
           <div className="text-base font-bold text-primary-blue text-center mt-4">
             Return to login
           </div>
