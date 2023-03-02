@@ -7,7 +7,7 @@ body {
     font-size: 16px;
 }
 
-
+/* react otp input styling */
 .otp_alt_style {
     width: 3rem !important;
     height: 3rem;
@@ -20,10 +20,11 @@ body {
     font-size: 1rem;
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 1199px) {
     .otp_alt_style {
         width: 2.5rem !important;
         font-size: 14px;
+        margin: 8px 0.3rem;
     }
 }
 
@@ -32,6 +33,7 @@ body {
 }
 
 
+/* removing browser styling */
 .input-wrapper input,
 .input-wrapper .select-input {
     background: transparent;
@@ -40,4 +42,41 @@ body {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+}
+
+/* React slick slide styling */
+
+.button__bar {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 20px auto;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.3);
+    background-color: transparent;
+    border-radius: 40px;
+    width: 180px;
+    text-align: center;
+}
+
+.button__bar li {
+    list-style: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 3px;
+    padding: 0;
+}
+
+.button__bar li button {
+    border: none;
+    background: #D4DFE4;
+    color: transparent;
+    cursor: pointer;
+    display: block;
+    height: 8px;
+    width: 80px;
+    border-radius: 24px;
+}
+
+.button__bar li.slick-active button {
+    background-color: #1C9FDA;
 }
