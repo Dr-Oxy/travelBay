@@ -32,7 +32,8 @@ body {
 }
 
 
-.password-wrapper input {
+.input-wrapper input,
+.input-wrapper .select-input {
     background: transparent;
     border: none !important;
     outline: none !important;

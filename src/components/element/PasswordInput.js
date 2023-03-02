@@ -7,7 +7,7 @@ const PasswordInput = React.forwardRef(function Input(
   const [show, setShow] = useState(false);
 
   return (
-    <div className="password-wrapper rounded-lg flex items-center justify-between  w-full text-gray-1 text-base py-3 px-2 border border-stroke-black focus-within:border-2 focus-within:border-primary-blue">
+    <div className="input-wrapper rounded-lg flex items-center justify-between  w-full text-gray-1 text-base py-3 px-2 border border-stroke-black focus-within:border-2 focus-within:border-primary-blue">
       <input
         className="flex-1"
         ref={ref}
